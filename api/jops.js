@@ -1,6 +1,6 @@
-import fs from "fs";
+const fs = require('fs');
 
-export const loadJSON = (filename = '') => {
+const loadJSON = (filename = '') => {
     if (fs.existsSync(filename)) {
         return JSON.parse(fs.readFileSync(filename))
     }   else {
@@ -8,7 +8,7 @@ export const loadJSON = (filename = '') => {
     }
 }
 
-export const saveJSON = (filename = '', json = '"') => {
+const saveJSON = (filename = '', json = '"') => {
     return fs.writeFileSync(filename, JSON.stringify(json));
 }
 
@@ -18,7 +18,7 @@ const logJSON = (filename = '') => {
     console.log(typeof(json))
 }
 
-export const checkUser = (name,filename = '"') => {
+const checkUser = (name,filename = '"') => {
     // check if name and cookie match.
     let users = filename.users
     for (let user of users) {
@@ -31,7 +31,7 @@ export const checkUser = (name,filename = '"') => {
     return false    
 }
 
-export const addUser = (name, filename = '') => {
+const addUser = (name, filename = '') => {
     // always do an auth before this function or else it will add duplicates
     let data = loadJSON(filename)
     let userNum = Object.keys(data.users).length
@@ -45,13 +45,13 @@ export const addUser = (name, filename = '') => {
     
 }
 
-export const authUser = (name, filename = '') => {
+const authUser = (name, filename = '') => {
     let data = loadJSON(filename)
     let userExists = checkUser(name, data)
     return userExists
 }
 
-export const loggedOn = (name, filename = '') => {
+const loggedOn = (name, filename = '') => {
     let data = loadJSON(filename)
     let users = data.users
     console.log(users)
@@ -63,14 +63,14 @@ export const loggedOn = (name, filename = '') => {
     saveJSON(filename, data)
 }
 
-export const addLine = (chatline, filename = '') => { 
+const addLine = (chatline, filename = '') => { 
     //chatline is {"username": name, "text": text} object
     let chat = loadJSON(filename)
     chat.lines.push(chatline)
     saveJSON(filename, chat)
 }
 
-export const addID = ((username, filename = '') => {
+const addID = ((username, filename = '') => {
     let chat = loadJSON(filename)
     let users = chat.users
     user.find()

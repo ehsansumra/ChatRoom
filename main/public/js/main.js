@@ -43,7 +43,7 @@ function getText() {
             fetch('http://localhost:5001/chat', 
                 {method: "POST", 
                 body: JSON.stringify({username: "Anonymous", text: tBox.value}), //add a way for user to be identified
-                headers: {'Content-Type': 'application/json'}})
+                headers: {"Content-Type": "application/json"}})
             // .then(response => response.json())
             .then(data => {
                 console.log(`data response: ${data}`)
@@ -81,12 +81,13 @@ function updateSkip(skipNum) {
     fetch('http://localhost:5001/update/skip', 
     {method: "POST", body: JSON.stringify({skip: skipNum}),
     headers: {'Content-Type': 'application/json'},
-    mode: 'cors'}) //gotta specify post
+    mode: "cors"}) //gotta specify post
     
     .then(response => response.json())
     .then(data => {
         if (data) {
             let lines = JSON.parse(data)
+            console.log(lines)
             updateSkipnum(lines.length)
             console.log(`update: ${data}`)
             updateChat(lines)
@@ -100,8 +101,10 @@ function updateSkip(skipNum) {
 
 
 console.log('getChat:')
-    fetch('http://localhost:5001/update', 
-    {method: "POST", mode: 'cors'
+fetch('http://localhost:5001/update', 
+    {
+    method: "POST", 
+    mode: "cors"
     }) //gotta specify post
     .then(response => response.json())
     .then(data => {

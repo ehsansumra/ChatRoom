@@ -1,16 +1,14 @@
-
-import mysql2 from 'mysql2';
-import moment from 'moment';
-import cors from "cors";
-import cookieParser from "cookie-parser"
-import {authUser, addUser, loggedOn, checkUser, loadJSON, saveJSON} from './jops.js';
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const mysql2 = require('mysql2')
+const moment = require('moment')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const jops = require('./jops.js')
+const express = require('express'),
+      update = require('./routes/update')  
+const path = require('path')
+const bodyParser = require('body-parser')
 const app = express()
-let login = require('./routes/login')
+
 
 const PORT = process.env.PORT || 5001;
 
@@ -42,14 +40,16 @@ app.use(cookieParser())
 //     }
 //     next();
 // })
-
 app.use(cors())
 app.use(express.json())
+app.use('/', update);
+
+
 
 app.post("/login", (req, res) => {
     console.log(req.body)
     const username = req.body.username
-    const userAuth = authUser(username, userID, "storage/test.json") //change authUser to only check username
+    const userAuth = jops.authUser(username, userID, "storage/test.json") //change authUser to only check username
     
     if (userAuth) {
         
@@ -82,26 +82,6 @@ app.post("/text", (req, res) => {
 // data = [{"username": "Bob", "text": "hey"}, {"username": "Bill", "text": "wassup"}, {"username": "Bob", "text": "same shit"}]
 // write a frontend script to display this
 // -- you already have the script in main.js to display one of these objects!
-
-app.post("/chat", (req, res) => {
-    const line = req.body
-    console.log(`/chat line: ${line}`)
-    console.log(`/chat stringify line: ${JSON.stringify(line)}`)
-    
-     // switch to memory
-    chat.lines.push(line)
-    res.sendStatus(200)
-
-})
-
-app.post("/update", (req, res) => {
-    // ?skip
-    let skip = req.query.skip
-     // replace with memory
-    console.log('sending')
-    res.json(JSON.stringify(chat))
-})
-
 
     
 app.listen(PORT, () => console.log(`Server Start, port ${PORT}`));
