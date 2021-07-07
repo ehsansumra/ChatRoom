@@ -28,7 +28,7 @@ router.post("/update", (req, res) => {
 
 
 router.post("/update/skip", (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     const skip = req.body.skip
     const lines = chat.lines // replace with memory
     const skipChat = lines.slice(skip)

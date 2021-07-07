@@ -106,14 +106,24 @@ h1 {
     color: rgb(153, 48, 0);
 }
 
-#username {
+.textcontainer {
     width: 400px;
 }
 
-#userbox {
+
+
+.textbox {
     width: 360px;
 }
 
 #regbox {
     width: 360px;
+}
+
+#regButton {
+    
+    color:rgb(36, 7, 7);
+    border: 3px solid rgb(46, 19, 0);
+    background-color:rgb(49, 25, 7);
+
 }

@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
     //return a 401 or 403 if user is not logged in
 } )
 
-app.get("/users", (req, res) => {
+app.get("/users/login", (req, res) => {
     console.log('userpage')
     res.sendFile(__dirname + '/views/users.html')
 } )

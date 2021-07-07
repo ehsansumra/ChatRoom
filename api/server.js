@@ -7,6 +7,7 @@ const express = require('express'),
       update = require('./routes/update')  
 const path = require('path')
 const bodyParser = require('body-parser')
+
 const app = express()
 
 
@@ -46,29 +47,32 @@ app.use('/', update);
 
 
 
-app.post("/login", (req, res) => {
+app.post("/users/login", (req, res) => {
     console.log(req.body)
     const username = req.body.username
-    const userAuth = jops.authUser(username, userID, "storage/test.json") //change authUser to only check username
+    res.json(JSON.stringify(req.body))
+
     
-    if (userAuth) {
+    // const userAuth = jops.authUser(username, userID, "storage/test.json") //change authUser to only check username
+    
+    // if (userAuth) {
         
-        let cookie = req.cookies.cookieName
-        if (cookie === undefined) {// find id, set as cookie value
-            res.cookie('cookieName', randomNum, {httpOnly: true});
-            console.log('cookie created')
-        } else {
-            console.log('cookie exists')
-        }
+    //     let cookie = req.cookies.cookieName
+    //     if (cookie === undefined) {// find id, set as cookie value
+    //         res.cookie('cookieName', randomNum, {httpOnly: true});
+    //         console.log('cookie created')
+    //     } else {
+    //         console.log('cookie exists')
+    //     }
 
-        loggedOn(username, "storage/test.json")
-        console.log(`logged in user: ${username}`)
-        res.sendStatus(200)
+    //     loggedOn(username, "storage/test.json")
+    //     console.log(`logged in user: ${username}`)
+    //     res.sendStatus(200)
 
-    } else {
-        res.sendStatus(401)
-        console.log('login not authorized')
-    }
+    // } else {
+    //     res.sendStatus(401)
+    //     console.log('login not authorized')
+    // }
 })
 
 app.post("/text", (req, res) => {
