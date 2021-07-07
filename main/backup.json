@@ -1,0 +1,19 @@
+{
+	"users": [
+		{
+			"id": 0,
+			"username": "name",
+			"loggedon": "false"
+		},
+		{
+			"id": 1,
+			"username": "name2",
+			"loggedon": "false"
+		},
+		{
+			"id": 2,
+			"username": "name3",
+			"loggedon": "false"
+		}
+	]
+}
