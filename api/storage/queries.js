@@ -32,13 +32,6 @@ const query = (sql) => {
 	})
 }
 
-const ifErr = () => {
-	if (err) {
-		console.log(err.code, err.sqlMessage)
-		return null
-	}
-}
-
 const registerUser = (username = '', password = '') => {
 	let sql = 
 		`INSERT INTO user (username, password, active) ` +

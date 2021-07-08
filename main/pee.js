@@ -30,6 +30,7 @@ app.use(cors({
 
 app.get("/", (req, res) => {
     console.log('mainpage')
+    if (req.session.loggedOn) res.redirect('/users/login');
     res.sendFile(__dirname + '/views/index.html')
     
     //return a 401 or 403 if user is not logged in

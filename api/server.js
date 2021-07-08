@@ -7,16 +7,33 @@ const express = require('express'),
       update = require('./routes/update')  
 const path = require('path')
 const bodyParser = require('body-parser')
-
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+const { v4: uuidv4 } = require('uuid');
 const app = express()
-
-
 const PORT = process.env.PORT || 5001;
 
-const chat = 
-{ 
-    lines: []
-}
+var options = {
+	host: 'localhost',
+	port: 5001,
+	user: 'root',
+	password: 'B_vZG9U%:!S5:rF$',
+	database: 'user',
+    createDatabaseTable: true,
+    schema: {
+		tableName: 'sessions2',
+		columnNames: {
+			session_id: 'session_id',
+			expires: 'expires',
+			data: 'data'
+		}
+	}
+};
+
+var sessionStore = new MySQLStore(options);
+
+
+
 
 let con = mysql2.createConnection({
 	host: "localhost",
@@ -25,6 +42,13 @@ let con = mysql2.createConnection({
 	database: "user"
 })
 
+app.use(session({
+	key: 'session_cookie_name',
+	secret: 'session_cookie_secret',
+	store: sessionStore,
+	resave: false,
+	saveUninitialized: false
+}));
 
 // setting static
 app.use(cookieParser())
@@ -45,12 +69,33 @@ app.use(cors())
 app.use(express.json())
 app.use('/', update);
 
-
-
-app.post("/users/login", (req, res) => {
+app.post("/users/login", (req, res, next) => {
     console.log(req.body)
     const username = req.body.username
-    res.json(JSON.stringify(req.body))
+    const password = req.body.password
+    con.connect((err) => {
+		if (err) throw err;
+		
+		let sql =  `SELECT user.password, user.username FROM user WHERE user.username = '${username}'`
+		con.query(sql, (err, result) => {
+			if (err) {
+				console.log(err.code, err.sqlMessage)
+			}
+			console.log(result)
+            console.log(req.body)
+			if (result[0].password == password && result[0].username == username){
+                res.locals.username = req.body.username
+                next()
+            } else {res.sendStatus(401)} // I AM HERE
+        })
+    })}, (req, res) => {
+        req.session.loggedOn = true
+        req.session.username = res.locals.username
+        console.log(req.session)
+        
+    })
+    
+
 
     
     // const userAuth = jops.authUser(username, userID, "storage/test.json") //change authUser to only check username
@@ -73,7 +118,7 @@ app.post("/users/login", (req, res) => {
     //     res.sendStatus(401)
     //     console.log('login not authorized')
     // }
-})
+
 
 app.post("/text", (req, res) => {
     console.log(req.body)
