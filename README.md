@@ -1,4 +1,4 @@
-ChatRoom
+
 A personal project.
 First real website I created with an express js backend. 
 Using node.js (node package manager), a mySQL database, and some session authentication I came up with.
